@@ -1,4 +1,7 @@
 from itertools import product
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap
 
 class LeverGame():
     """
@@ -32,6 +35,8 @@ class LeverGame():
         
         self.action_space = set(product(list(range(self.n_levers)), repeat=self.n_agents))
         
+        self.last_action = None
+        
     def step(self, action):
         assert action in self.action_space, "%r (%s) is an invalid action" % (action, type(action))
         
@@ -40,7 +45,25 @@ class LeverGame():
         else:
             reward = 0
             
+        self.last_action = action
         return action, reward, False, dict()
     
+    def render(self):
+        player_choices = [[0 for l in range(self.n_levers)] for p in range(self.n_agents)]
         
+        if self.last_action:
+            for c,v in enumerate(self.last_action):
+                player_choices[c][v] = c+1
+
+        fig, ax = plt.subplots(figsize=(4,4./5), dpi=100, subplot_kw={'yticks': range(self.n_agents), 'yticklabels': ['Player 1', 'Player 2'], 'xticks': range(self.n_levers), 'xticklabels': self.payoffs})
+        ax.tick_params(axis='both', which='both', length=0)
+        ax.set_xlabel('Lever payoffs')
+
+        x = np.arange(-.5, 10, 1)
+        y = np.arange(-.5, 2, 1)
+        cmap = ListedColormap([[1.,1.,1.], [222/255.,143/255.,5/255.], [1/255.,115/255.,178/255.]])
+        ax.pcolormesh(x, y, player_choices, cmap=cmap, vmin=0, vmax=self.n_agents, edgecolors='black', linewidths=1)
+    
         
+    def reset(self):
+        self.last_action = None
