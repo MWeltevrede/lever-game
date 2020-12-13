@@ -61,7 +61,7 @@ class LeverGame():
 
         x = np.arange(-.5, 10, 1)
         y = np.arange(-.5, 2, 1)
-        cmap = ListedColormap([[1.,1.,1.], [222/255.,143/255.,5/255.], [1/255.,115/255.,178/255.]])
+        cmap = ListedColormap([[1.,1.,1.], [255/255.,131/255.,120/255.], [124/255.,202/255.,226/255.]])
         ax.pcolormesh(x, y, player_choices, cmap=cmap, vmin=0, vmax=self.n_agents, edgecolors='black', linewidths=1)
     
         
