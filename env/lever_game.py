@@ -29,7 +29,7 @@ class LeverGame():
         
     Reward:
         If both players choose the same lever, the reward equals the payoff associated with that lever.
-        If the players choose differenrt levers, the reward is 0
+        If the players choose different levers, the reward is 0
     """
     
     def __init__(self, lever_payoffs=DEFAULT_PAYOFFS):
@@ -51,7 +51,7 @@ class LeverGame():
             reward = 0
             
         self.last_action = action
-        return action, reward, False, dict()
+        return action, reward, True, dict()
     
     def render(self):
         player_choices = [[0 for l in range(self.n_levers)] for p in range(self.n_agents)]
