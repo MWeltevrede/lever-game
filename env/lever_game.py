@@ -3,6 +3,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 
+
+DEFAULT_PAYOFFS = [0.9, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+DEFAULT_N_AGENTS = 2
+
+
 class LeverGame():
     """
     Description:
@@ -27,11 +32,11 @@ class LeverGame():
         If the players choose differenrt levers, the reward is 0
     """
     
-    def __init__(self, lever_payoffs=[0.9, 1, 1, 1, 1, 1, 1, 1, 1, 1]):
+    def __init__(self, lever_payoffs=DEFAULT_PAYOFFS):
         self.n_levers = len(lever_payoffs)
         self.payoffs = lever_payoffs
         
-        self.n_agents = 2
+        self.n_agents = DEFAULT_N_AGENTS
         
         self.action_space = set(product(list(range(self.n_levers)), repeat=self.n_agents))
         
