@@ -11,12 +11,13 @@ class QLearning():
     Description:
         Basic implementation of the Q-learning algorithm with epsilon-greedy action selection.
     """
-    def __init__(self, num_states, num_actions, discount=DEFAULT_DISCOUNT, learning_rate=DEFAULT_LEARNING_RATE):
+    def __init__(self, num_states, num_actions, discount=DEFAULT_DISCOUNT, learning_rate=DEFAULT_LEARNING_RATE, epsilon=DEFAULT_EPSILON):
         # initialize Q-values to 0
         self.Q_values = np.zeros((num_states, num_actions))
         self.gamma = discount
         self.alpha = learning_rate
         self.num_actions = num_actions
+        self.epsilon = epsilon
         
     def update_q_values(self, state, action, next_state, reward, done):
         """
@@ -33,7 +34,7 @@ class QLearning():
         """
             Select action using epsilon-greedy action selection based on the current Q-values
         """
-        if np.random.random() > DEFAULT_EPSILON:
+        if np.random.random() > self.epsilon:
             # greedy action selection
             
             # check if there are multiple equivalent greedy actions
