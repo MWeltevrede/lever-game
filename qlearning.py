@@ -32,7 +32,7 @@ class QLearning():
         
     def select_action(self, state):
         """
-            Select action using epsilon-greedy action selection based on the current Q-values
+            Select action using epsilon-greedy action selection
         """
         if np.random.random() > self.epsilon:
             # greedy action selection
@@ -48,3 +48,14 @@ class QLearning():
         else:
             # random action selection
             return np.random.randint(0, self.num_actions)
+        
+    def select_action_with_decay(self, state, step, epsilon_start, epsilon_end, decayed_by):
+        """
+            Select action using linearly decaying epsilon-greedy action selection
+        """
+        # Calculate decay of epsilon
+        p = np.max([epsilon_start - (epsilon_start - epsilon_end) * (step / decayed_by), epsilon_end])
+        self.epsilon = p
+        
+        return self.select_action(state)
+        
