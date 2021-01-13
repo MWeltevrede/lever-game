@@ -30,21 +30,17 @@ class QLearning():
             self.Q_values[state,action] = (1 - self.alpha) * self.Q_values[state,action] + self.alpha * (reward + self.gamma * np.amax(self.Q_values[next_state]))
         
         
-    def select_action(self, state):
+    def select_action(self, state, epsilon=None):
         """
             Select action using epsilon-greedy action selection
         """
-        if np.random.random() > self.epsilon:
-            # greedy action selection
+        if epsilon == None:
+            epsilon = self.epsilon
             
-            # check if there are multiple equivalent greedy actions
-            if sum(self.Q_values[state] == np.amax(self.Q_values[state])) > 1:
-                # select one of the greedy actions randomly
-                idxs = np.where(self.Q_values[state] == np.amax(self.Q_values[state]))[0]
-                return idxs[np.random.randint(0, idxs.size)]
-            else:
-                # return the unique greedy action
-                return np.argmax(self.Q_values[state])
+        if np.random.random() > epsilon:
+            # greedy action selection
+            return self.get_optimal_action(state)
+            
         else:
             # random action selection
             return np.random.randint(0, self.num_actions)
@@ -55,7 +51,18 @@ class QLearning():
         """
         # Calculate decay of epsilon
         p = np.max([epsilon_start - (epsilon_start - epsilon_end) * (step / decayed_by), epsilon_end])
-        self.epsilon = p
-        
-        return self.select_action(state)
+        return self.select_action(state, epsilon=p)
+    
+    def get_optimal_action(self, state):
+        """
+            Select the optimal action based on the current Q values
+        """
+        # check if there are multiple equivalent optimal actions
+        if sum(self.Q_values[state] == np.amax(self.Q_values[state])) > 1:
+            # select one of the optimal actions randomly
+            idxs = np.where(self.Q_values[state] == np.amax(self.Q_values[state]))[0]
+            return idxs[np.random.randint(0, idxs.size)]
+        else:
+            # return the unique optimal action
+            return np.argmax(self.Q_values[state])
         
