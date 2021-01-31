@@ -42,6 +42,8 @@ class Logger():
         """
             Plot training and/or testing scores with provided smoothness
         """
+        cmap = matplotlib.cm.get_cmap('Set2')
+        
         if not self.include_test_graph:
             fig, axs = plt.subplots(dpi=100, figsize=[6,6])
 
@@ -53,8 +55,8 @@ class Logger():
                 mean = uniform_filter1d(mean, size=smoothness, origin=int((smoothness-1)/2), mode='nearest')
                 sem = uniform_filter1d(sem, size=smoothness, origin=int((smoothness-1)/2), mode='nearest')
 
-            axs.plot(list(range(self.total_episodes)), mean)
-            axs.fill_between(list(range(self.total_episodes)), mean +  sem, mean - sem, alpha = 0.3)
+            axs.plot(list(range(self.total_episodes)), mean, color=cmap(2))
+            axs.fill_between(list(range(self.total_episodes)), mean +  sem, mean - sem, alpha = 0.3, color=cmap(2))
             axs.set_xlabel('# of episodes')
             axs.set_ylabel('Reward')
             axs.set_title('Training')
@@ -72,8 +74,8 @@ class Logger():
                 mean = uniform_filter1d(mean, size=smoothness, origin=int((smoothness-1)/2), mode='nearest')
                 sem = uniform_filter1d(sem, size=smoothness, origin=int((smoothness-1)/2), mode='nearest')
 
-            axs[0].plot(list(range(self.total_episodes)), mean)
-            axs[0].fill_between(list(range(self.total_episodes)), mean +  sem, mean - sem, alpha = 0.3)
+            axs[0].plot(list(range(self.total_episodes)), mean, color=cmap(2))
+            axs[0].fill_between(list(range(self.total_episodes)), mean +  sem, mean - sem, alpha = 0.3, color=cmap(2))
             axs[0].set_xlabel('# of episodes')
             axs[0].set_ylabel('Reward')
             axs[0].set_title('Training')
@@ -87,8 +89,8 @@ class Logger():
                 mean = uniform_filter1d(mean, size=smoothness, origin=int((smoothness-1)/2), mode='nearest')
                 sem = uniform_filter1d(sem, size=smoothness, origin=int((smoothness-1)/2), mode='nearest')
 
-            axs[1].plot(list(range(self.total_episodes)), mean)
-            axs[1].fill_between(list(range(self.total_episodes)), mean +  sem, mean - sem, alpha = 0.3)
+            axs[1].plot(list(range(self.total_episodes)), mean, color=cmap(2))
+            axs[1].fill_between(list(range(self.total_episodes)), mean +  sem, mean - sem, alpha = 0.3, color=cmap(2))
             axs[1].set_xlabel('# of episodes')
             axs[1].set_ylabel('Reward')
             axs[1].set_title('Testing (Zero-Shot)')
